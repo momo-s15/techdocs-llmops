@@ -29,6 +29,7 @@ Technical documentation is dense, versioned, and often **cannot** be sent to thi
 - [Stack](#stack)
 - [Skills this project demonstrates](#skills-this-project-demonstrates-for-recruiters--hiring-managers)
 - [Quick start (Windows)](#quick-start-windows)
+- [Sample API response](#sample-api-response)
 - [Alternative: helper scripts](#alternative-helper-scripts)
 - [Health checks](#health-checks)
 - [Configuration](#configuration)
@@ -56,6 +57,12 @@ Technical documentation is dense, versioned, and often **cannot** be sent to thi
 ---
 
 ## Architecture
+
+End-to-end flow (reference diagram in the repository root):
+
+![Architecture diagram: PDF manuals → ingest → CPU embeddings → Chroma on disk → FastAPI /v1/ask → Ollama](architecture-diagram.png)
+
+The same pipeline as **Mermaid** (handy for editing in source):
 
 ```mermaid
 flowchart LR
@@ -134,12 +141,20 @@ Open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) and call **`POST /
 
 ```json
 {
-  "question": "What does the manual say about brake stack inspection?",
-  "k": 4
+  "question": "What is the minimum serviceable thickness for the main gear brake stack?",
+  "k": 6
 }
 ```
 
 If port **8000** is occupied by a stale process, pick another port or use the helper script below.
+
+---
+
+## Sample API response
+
+With manuals ingested and Ollama running, the same request as in the quick start example above returns a structured payload: an **`answer`** grounded in the manuals plus **`sources`** (excerpts, scores, file paths, and pages). Below is a real capture from **`/docs`** (Swagger UI) for that request.
+
+![Sample POST /v1/ask response: main gear brake stack minimum serviceable thickness — answer and cited sources](v1-ask-main-gear-brake-stack-response.jpeg)
 
 ---
 
@@ -246,6 +261,8 @@ Do **not** set `TECHDOCS_TESTING` for production serving; it is only for automat
 
 | Path | Role |
 |------|------|
+| [`architecture-diagram.png`](architecture-diagram.png) | Reference architecture diagram (root) |
+| [`v1-ask-main-gear-brake-stack-response.jpeg`](v1-ask-main-gear-brake-stack-response.jpeg) | Sample `POST /v1/ask` output (Swagger) for the brake stack question with `k: 6` |
 | [`src/techdocs_llmops/`](src/techdocs_llmops/) | Application package: config, ingest, vector store, RAG chain, API |
 | [`scripts/ingest.py`](scripts/ingest.py) | CLI ingestion |
 | [`scripts/dev-server.ps1`](scripts/dev-server.ps1) | Optional dev server launcher |
