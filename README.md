@@ -58,35 +58,11 @@ Technical documentation is dense, versioned, and often **cannot** be sent to thi
 
 ## Architecture
 
-End-to-end flow (reference diagram in the repository root):
+End-to-end flow (reference diagram in the repository root). The image is scaled to use the full width of the README column on GitHub.
 
-![Architecture diagram: PDF manuals → ingest → CPU embeddings → Chroma on disk → FastAPI /v1/ask → Ollama](architecture-diagram.png)
-
-The same pipeline as **Mermaid** (handy for editing in source):
-
-```mermaid
-flowchart LR
-  subgraph ingest["Ingestion"]
-    PDF["PDF manuals"]
-    LOAD["PyPDFLoader"]
-    SPLIT["RecursiveCharacterTextSplitter"]
-    PDF --> LOAD --> SPLIT
-  end
-
-  subgraph index["Indexing"]
-    EMB["sentence-transformers\n(CPU)"]
-    CHROMA[("ChromaDB\npersisted on disk")]
-    SPLIT --> EMB --> CHROMA
-  end
-
-  subgraph serve["Serving"]
-    API["FastAPI\n/v1/ask"]
-    RET["Retriever"]
-    LLM["Ollama\nChatOllama"]
-    API --> RET --> CHROMA
-    RET --> LLM
-  end
-```
+<div align="center">
+  <img src="architecture-diagram.png" alt="Architecture diagram: PDF manuals → ingest → CPU embeddings → Chroma on disk → FastAPI /v1/ask → Ollama" width="100%" />
+</div>
 
 Data stays on your machine: **no cloud LLM or embedding API** in the default configuration.
 
