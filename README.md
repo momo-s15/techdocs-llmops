@@ -25,24 +25,6 @@
 
 ---
 
-## Table of contents
-
-- [What you get](#what-you-get)
-- [Architecture](#architecture)
-- [Stack](#stack)
-- [Skills this project demonstrates](#skills-this-project-demonstrates-for-recruiters--hiring-managers)
-- [Quick start (Windows)](#quick-start-windows)
-- [Sample API response](#sample-api-response)
-- [Alternative: helper scripts](#alternative-helper-scripts)
-- [Health checks](#health-checks)
-- [API](#api)
-- [Configuration](#configuration)
-- [Air-gap and privacy](#air-gap-and-privacy)
-- [Tests](#tests)
-- [Project layout](#project-layout)
-
----
-
 ## What you get
 
 | Capability | Detail |
